@@ -4,8 +4,11 @@
     <string name="once_period">Once</string>
     <string name="every_day_period">Every day</string>
     <string name="weekdays_period">Weekdays</string>
+    <string name="replay">Replay</string>
+    <string name="alarm_label">Alarm clock</string>
+    <string name="create_alarm_label">Create alarm clock</string>
 
-    <string-array name="weekdays">
+    <string-array name="weekdays_short">
         <item>Mo</item>
         <item>Tu</item>
         <item>We</item>

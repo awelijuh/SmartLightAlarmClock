@@ -1,17 +1,18 @@
-package com.awelijuh.smartlightalarmclock.activity;
+package com.awelijuh.smartlightalarmclock.view.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.awelijuh.smartlightalarmclock.R;
-import com.awelijuh.smartlightalarmclock.databinding.ActivityMainBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.awelijuh.smartlightalarmclock.R;
+import com.awelijuh.smartlightalarmclock.databinding.ActivityMainBinding;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint

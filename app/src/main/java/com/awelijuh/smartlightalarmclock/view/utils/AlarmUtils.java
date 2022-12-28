@@ -1,30 +1,19 @@
-package com.awelijuh.smartlightalarmclock.models;
+package com.awelijuh.smartlightalarmclock.view.utils;
 
 import android.content.Context;
 
 import com.awelijuh.smartlightalarmclock.R;
 
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import lombok.Data;
-import lombok.Setter;
+public class AlarmUtils {
 
-@Data
-public class AlarmClockItem {
-
-    public LocalTime time;
-
-    public Boolean isActive;
-
-    public Set<DayOfWeek> replay;
-
-    public String getPeriodText(Context context) {
+    public static String getPeriodText(Set<DayOfWeek> replay, Context context) {
         if (replay == null) {
             return context.getString(R.string.once_period);
         }
@@ -35,7 +24,7 @@ public class AlarmClockItem {
             return context.getString(R.string.weekdays_period);
         } else {
             List<DayOfWeek> days = Arrays.stream(DayOfWeek.values()).collect(Collectors.toList());
-            String[] daysStr = context.getResources().getStringArray(R.array.weekdays);
+            String[] daysStr = context.getResources().getStringArray(R.array.weekdays_short);
 
             return replay.stream().sorted(Comparator.comparingInt(days::indexOf))
                     .map(e -> daysStr[(days.indexOf(e))]).collect(Collectors.joining(" "));

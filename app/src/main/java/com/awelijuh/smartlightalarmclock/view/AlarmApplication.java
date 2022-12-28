@@ -1,4 +1,4 @@
-package com.awelijuh.smartlightalarmclock;
+package com.awelijuh.smartlightalarmclock.view;
 
 import android.app.Application;
 

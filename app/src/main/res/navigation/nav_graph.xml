@@ -7,7 +7,16 @@
 
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="com.awelijuh.smartlightalarmclock.fragments.alarmclocklist.AlarmFragment"
-        android:label="fragment_alarm"
-        tools:layout="@layout/fragment_alarm" />
+        android:name="com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.AlarmFragment"
+        android:label="@string/alarm_label"
+        tools:layout="@layout/fragment_alarm" >
+        <action
+            android:id="@+id/action_alarmFragment_to_alarmCreatorFragment"
+            app:destination="@id/alarmCreatorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alarmCreatorFragment"
+        android:name="com.awelijuh.smartlightalarmclock.view.fragments.creator.AlarmCreatorFragment"
+        android:label="@string/create_alarm_label"
+        tools:layout="@layout/fragment_create_alarm" />
 </navigation>

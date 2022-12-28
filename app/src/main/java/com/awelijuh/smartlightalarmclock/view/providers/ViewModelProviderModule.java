@@ -1,9 +1,9 @@
-package com.awelijuh.smartlightalarmclock.providers;
+package com.awelijuh.smartlightalarmclock.view.providers;
 
 import android.content.Context;
 
-import com.awelijuh.smartlightalarmclock.fragments.alarmclocklist.AlarmViewModel;
-import com.awelijuh.smartlightalarmclock.fragments.creator.AlarmCreatorViewModel;
+import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.AlarmViewModel;
+import com.awelijuh.smartlightalarmclock.view.fragments.creator.AlarmCreatorViewModel;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;

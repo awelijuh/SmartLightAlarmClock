@@ -4,8 +4,11 @@
     <string name="once_period">Однократно</string>
     <string name="every_day_period">Ежедневно</string>
     <string name="weekdays_period">По будням</string>
+    <string name="replay">Повтор</string>
+    <string name="alarm_label">Будильник</string>
+    <string name="create_alarm_label">Новый будильник</string>
 
-    <string-array name="weekdays">
+    <string-array name="weekdays_short">
         <item>пн</item>
         <item>вт</item>
         <item>ср</item>

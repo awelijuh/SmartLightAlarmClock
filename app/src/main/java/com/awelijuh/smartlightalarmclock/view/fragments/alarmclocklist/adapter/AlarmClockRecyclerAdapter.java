@@ -1,18 +1,19 @@
-package com.awelijuh.smartlightalarmclock.fragments.alarmclocklist.adapter;
+package com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.awelijuh.smartlightalarmclock.databinding.ItemAlarmBinding;
-import com.awelijuh.smartlightalarmclock.models.AlarmClockItem;
+import com.awelijuh.smartlightalarmclock.domain.AlarmClockItem;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import dagger.Module;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.components.FragmentComponent;
@@ -24,6 +25,7 @@ import dagger.hilt.android.qualifiers.ActivityContext;
 public class AlarmClockRecyclerAdapter extends RecyclerView.Adapter<AlarmClockRecyclerAdapter.ViewHolder> {
 
     private final Context context;
+
     private List<AlarmClockItem> items;
 
     @Inject
@@ -52,7 +54,7 @@ public class AlarmClockRecyclerAdapter extends RecyclerView.Adapter<AlarmClockRe
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ItemAlarmBinding binding;
 
@@ -62,8 +64,9 @@ public class AlarmClockRecyclerAdapter extends RecyclerView.Adapter<AlarmClockRe
         }
 
         void bind(AlarmClockItem alarmClockItem) {
-//            binding.setContext(context);
-//            binding.setAlarm(alarmClockItem);
+            binding.alarmItemActive.setChecked(alarmClockItem.isActive());
+            binding.alarmItemTime.setText(alarmClockItem.getTime().toString());
+            binding.alarmItemPeriod.setText(alarmClockItem.getPeriodText(context));
         }
 
     }

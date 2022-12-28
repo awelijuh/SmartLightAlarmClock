@@ -1,6 +1,6 @@
-package com.awelijuh.smartlightalarmclock.fragments.alarmclocklist;
+package com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist;
 
-import com.awelijuh.smartlightalarmclock.models.AlarmClockItem;
+import com.awelijuh.smartlightalarmclock.domain.AlarmClockItem;
 
 import java.util.List;
 
