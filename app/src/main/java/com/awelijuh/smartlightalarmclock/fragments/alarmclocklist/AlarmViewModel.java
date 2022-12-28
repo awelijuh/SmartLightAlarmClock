@@ -1,4 +1,4 @@
-package com.awelijuh.smartlightalarmclock.fragments.alarm;
+package com.awelijuh.smartlightalarmclock.fragments.alarmclocklist;
 
 import com.awelijuh.smartlightalarmclock.models.AlarmClockItem;
 

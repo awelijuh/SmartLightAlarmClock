@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.awelijuh.smartlightalarmclock"
-        minSdk 25
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -65,4 +65,5 @@ dependencies {
 
 kapt {
     correctErrorTypes true
+    keepJavacAnnotationProcessors = true
 }

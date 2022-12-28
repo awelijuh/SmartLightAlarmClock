@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmartLightAlarmClock</string>
+    <string name="action_settings">Настройки</string>
+    <string name="once_period">Однократно</string>
+    <string name="every_day_period">Ежедневно</string>
+    <string name="weekdays_period">По будням</string>
+
+    <string-array name="weekdays">
+        <item>пн</item>
+        <item>вт</item>
+        <item>ср</item>
+        <item>чт</item>
+        <item>пт</item>
+        <item>сб</item>
+        <item>вс</item>
+    </string-array>
+
+
+</resources>
