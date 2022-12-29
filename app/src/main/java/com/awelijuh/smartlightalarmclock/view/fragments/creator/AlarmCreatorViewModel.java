@@ -1,6 +1,11 @@
 package com.awelijuh.smartlightalarmclock.view.fragments.creator;
 
-import android.app.Application;
+import android.content.Context;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 
 import com.awelijuh.smartlightalarmclock.core.domain.AlarmClockItem;
 import com.awelijuh.smartlightalarmclock.view.utils.AlarmUtils;
@@ -13,15 +18,14 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import dagger.hilt.android.qualifiers.ApplicationContext;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @HiltViewModel
-public class AlarmCreatorViewModel extends AndroidViewModel {
+@NoArgsConstructor(onConstructor = @__(@Inject))
+public class AlarmCreatorViewModel extends ViewModel {
 
     public final MutableLiveData<LocalTime> time = new MutableLiveData<>();
 
@@ -31,12 +35,12 @@ public class AlarmCreatorViewModel extends AndroidViewModel {
 
     public final LiveData<Boolean> isUpdate = Transformations.map(alarmId, Objects::nonNull);
 
-    public final LiveData<String> periodText;
+    @Getter
+    private LiveData<String> periodText;
 
     @Inject
-    public AlarmCreatorViewModel(@NonNull Application application) {
-        super(application);
-        this.periodText = Transformations.map(period, period -> AlarmUtils.getPeriodText(period, application));
+    void init(@ApplicationContext Context context) {
+        this.periodText = Transformations.map(period, period -> AlarmUtils.getPeriodText(period, context));
     }
 
     public void updateTime(LocalTime time) {

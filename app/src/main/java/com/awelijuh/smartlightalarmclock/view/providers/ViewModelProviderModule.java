@@ -2,12 +2,13 @@ package com.awelijuh.smartlightalarmclock.view.providers;
 
 import android.content.Context;
 
-import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.AlarmViewModel;
-import com.awelijuh.smartlightalarmclock.view.fragments.creator.AlarmCreatorViewModel;
-
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+
+import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.AlarmViewModel;
+import com.awelijuh.smartlightalarmclock.view.fragments.creator.AlarmCreatorViewModel;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="alarm"
             type="com.awelijuh.smartlightalarmclock.core.domain.AlarmClockItem" />
@@ -19,16 +18,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
+            android:text="@{alarm.getTime().toString()}"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="@{alarm.getTime().toString()}"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/alarm_item_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{alarm.getPeriodText()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/alarm_item_time" />
 
@@ -36,6 +36,7 @@
             android:id="@+id/alarm_item_active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="@{alarm.isActive()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

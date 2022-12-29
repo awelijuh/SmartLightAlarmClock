@@ -9,6 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.awelijuh.smartlightalarmclock.R;
 import com.awelijuh.smartlightalarmclock.core.ports.in.LedUseCase;
 import com.awelijuh.smartlightalarmclock.databinding.FragmentCreateAlarmBinding;
@@ -19,11 +25,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.MenuProvider;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -60,7 +61,7 @@ public class AlarmCreatorFragment extends Fragment {
             binding.alarmTime.setHour(e.getHour());
             binding.alarmTime.setMinute(e.getMinute());
         });
-        alarmCreatorViewModel.periodText.observe(getViewLifecycleOwner(), e -> binding.currentReplay.setText(e));
+        alarmCreatorViewModel.getPeriodText().observe(getViewLifecycleOwner(), e -> binding.currentReplay.setText(e));
 
         binding.alarmTime.setOnTimeChangedListener((timePicker, i, i1) ->
                 alarmCreatorViewModel.updateTime(LocalTime.of(timePicker.getHour(), timePicker.getMinute())));

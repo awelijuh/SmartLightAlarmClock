@@ -1,8 +1,7 @@
 package com.awelijuh.smartlightalarmclock.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import javax.inject.Singleton;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,9 +12,11 @@ import dagger.hilt.components.SingletonComponent;
 @InstallIn(SingletonComponent.class)
 public class ApplicationProvider {
 
-//    @Provides
-//    public ObjectMapper provideObjectMapper() {
-//        return new ObjectMapper();
-//    }
+    @Provides
+    public ObjectMapper provideObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
+    }
 
 }

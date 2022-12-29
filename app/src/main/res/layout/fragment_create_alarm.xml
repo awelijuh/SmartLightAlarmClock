@@ -39,13 +39,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:text="Однократно" />
+            android:text="" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:contentDescription="select"
+            android:contentDescription="@string/custom_period"
             android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
     </LinearLayout>
 
