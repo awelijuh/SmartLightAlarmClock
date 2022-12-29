@@ -1,6 +1,6 @@
 package com.awelijuh.smartlightalarmclock.core.services;
 
-import com.awelijuh.smartlightalarmclock.core.ports.LedPort;
+import com.awelijuh.smartlightalarmclock.core.ports.in.LedUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -10,11 +10,11 @@ import dagger.multibindings.IntoSet;
 
 @Module
 @InstallIn(SingletonComponent.class)
-public class MiLedService implements LedPort {
+public class MiLedService implements LedUseCase {
 
     @Provides
     @IntoSet
-    public LedPort provideThis() {
+    public LedUseCase provideThis() {
         return this;
     }
 

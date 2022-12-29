@@ -11,16 +11,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
+
 public class AlarmUtils {
 
+    public static final Set<DayOfWeek> WEEKDAYS = Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY);
+
     public static String getPeriodText(Set<DayOfWeek> replay, Context context) {
-        if (replay == null) {
+        if (replay == null || replay.isEmpty()) {
             return context.getString(R.string.once_period);
         }
         if (replay.size() == 7) {
             return context.getString(R.string.every_day_period);
         }
-        if (replay.equals(Set.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY))) {
+        if (replay.equals(WEEKDAYS)) {
             return context.getString(R.string.weekdays_period);
         } else {
             List<DayOfWeek> days = Arrays.stream(DayOfWeek.values()).collect(Collectors.toList());
@@ -30,5 +34,15 @@ public class AlarmUtils {
                     .map(e -> daysStr[(days.indexOf(e))]).collect(Collectors.joining(" "));
         }
     }
+
+    public static boolean[] toPrimitiveArray(final List<Boolean> booleanList) {
+        final boolean[] primitives = new boolean[booleanList.size()];
+        int index = 0;
+        for (Boolean object : booleanList) {
+            primitives[index++] = object;
+        }
+        return primitives;
+    }
+
 
 }
