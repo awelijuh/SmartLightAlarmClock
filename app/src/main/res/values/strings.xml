@@ -10,6 +10,13 @@
     <string name="create_alarm_label">Create alarm clock</string>
     <string name="ok_text">OK</string>
     <string name="cancel_text">Cancel</string>
+    <string name="select_objects">Select objects</string>
+    <string name="selected_objects">Selected:</string>
+    <string name="remove">Remove</string>
+    <string name="light_bulbs">Light bulbs</string>
+    <string name="name_str">Name</string>
+    <string name="light_type">Type:</string>
+    <string name="accounts">Accounts</string>
 
     <string-array name="weekdays_short">
         <item>Mo</item>

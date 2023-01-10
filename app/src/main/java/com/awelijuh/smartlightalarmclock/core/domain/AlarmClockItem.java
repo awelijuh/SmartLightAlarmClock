@@ -1,10 +1,5 @@
 package com.awelijuh.smartlightalarmclock.core.domain;
 
-import android.content.Context;
-
-import com.awelijuh.smartlightalarmclock.view.utils.AlarmUtils;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Set;
@@ -25,11 +20,4 @@ public class AlarmClockItem {
 
     private Set<DayOfWeek> replay;
 
-    @JsonIgnore
-    private String periodText;
-
-    @JsonIgnore
-    public void setupPeriodText(Context context) {
-        this.periodText = AlarmUtils.getPeriodText(replay, context);
-    }
 }

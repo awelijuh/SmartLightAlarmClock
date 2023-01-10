@@ -10,6 +10,13 @@
     <string name="create_alarm_label">Новый будильник</string>
     <string name="ok_text">ОК</string>
     <string name="cancel_text">Отмена</string>
+    <string name="select_objects">Выберите объекты</string>
+    <string name="selected_objects">Выбрано:</string>
+    <string name="remove">Удалить</string>
+    <string name="light_bulbs">Лампочки</string>
+    <string name="name_str">Название</string>
+    <string name="light_type">Тип:</string>
+    <string name="accounts">Аккаунты</string>
 
     <string-array name="weekdays_short">
         <item>пн</item>

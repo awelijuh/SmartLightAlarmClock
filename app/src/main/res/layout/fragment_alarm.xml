@@ -1,25 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragments.alarmclocklist.AlarmFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/alarms"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_alarm"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:clipToPadding="false"
+        android:paddingBottom="200dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_alarm" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="16dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="100dp"
         android:src="@android:drawable/ic_input_add" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/remove_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+        <LinearLayout
+            android:id="@+id/remove_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_delete" />
+
+            <TextView
+                android:id="@+id/remove_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remove"
+                android:textColor="@color/gray_600"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </FrameLayout>

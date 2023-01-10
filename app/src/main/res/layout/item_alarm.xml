@@ -3,40 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="alarm"
-            type="com.awelijuh.smartlightalarmclock.core.domain.AlarmClockItem" />
+            type="com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.adapter.AlarmClockViewDto" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp">
+        android:layout_margin="2dp"
+        android:background="@color/white_snow"
+        android:padding="12dp">
 
-        <TextView
-            android:id="@+id/alarm_item_time"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:text="@{alarm.getTime().toString()}"
-            android:textSize="24sp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/alarm_item_period"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{alarm.getPeriodText()}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alarm_item_time" />
+            <TextView
+                android:id="@+id/alarm_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:text="@{alarm.getTime().toString()}"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/alarm_item_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{alarm.getPeriodText()}" />
+        </LinearLayout>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/alarm_item_active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="@{alarm.isActive()}"
+            android:visibility="@{!alarm.isSelectedMode() ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{alarm.isSelected()}"
+            android:visibility="@{alarm.isSelectedMode() ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

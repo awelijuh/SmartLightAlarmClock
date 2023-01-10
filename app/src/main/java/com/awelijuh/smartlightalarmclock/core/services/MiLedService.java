@@ -2,20 +2,21 @@ package com.awelijuh.smartlightalarmclock.core.services;
 
 import com.awelijuh.smartlightalarmclock.core.ports.in.LedUseCase;
 
-import dagger.Module;
-import dagger.Provides;
-import dagger.hilt.InstallIn;
-import dagger.hilt.components.SingletonComponent;
-import dagger.multibindings.IntoSet;
-
-@Module
-@InstallIn(SingletonComponent.class)
+//@NoArgsConstructor(onConstructor = @__(@Inject))
 public class MiLedService implements LedUseCase {
 
-    @Provides
-    @IntoSet
-    public LedUseCase provideThis() {
-        return this;
+    @Override
+    public Class<?> getCredentialsClass() {
+        return null;
     }
 
+    @Override
+    public Class<?> getDeviceClass() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
 }

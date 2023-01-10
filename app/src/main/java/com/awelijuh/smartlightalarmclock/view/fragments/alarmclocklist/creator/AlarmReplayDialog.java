@@ -1,4 +1,4 @@
-package com.awelijuh.smartlightalarmclock.view.fragments.creator;
+package com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.creator;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
