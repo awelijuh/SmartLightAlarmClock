@@ -7,6 +7,7 @@ import com.awelijuh.smartlightalarmclock.core.ports.in.LedUseCase;
 import com.awelijuh.smartlightalarmclock.view.fragments.accounts.adapter.AccountItem;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -23,7 +24,7 @@ public class AccountsViewModel extends ViewModel {
     public final MutableLiveData<String> editAccount = new MutableLiveData<>(null);
 
     @Inject
-    List<LedUseCase> leds;
+    Set<LedUseCase> leds;
 
     public void loadAccounts() {
         accounts.setValue(leds.stream().map(this::mapLedToAccount).collect(Collectors.toList()));
@@ -35,6 +36,10 @@ public class AccountsViewModel extends ViewModel {
         accountItem.setName(ledUseCase.getName());
 
         return accountItem;
+    }
+
+    public void clear() {
+        editAccount.setValue(null);
     }
 
 }

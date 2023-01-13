@@ -15,13 +15,12 @@ import lombok.NoArgsConstructor;
 public class ToyaMapper {
 
     public SchemaItem map(ToyaContainerDto dto) {
-        var values = dto.getResult().getFunctions().stream().collect(Collectors.toMap(SchemaItem::getCode, Function.identity()));
+//        var values = dto.getResult().getFunctions().stream().collect(Collectors.toMap(SchemaItem::getCode, Function.identity()));
         SchemaItem schemaItem = new SchemaItem();
         schemaItem.setCode("root");
         schemaItem.setType(TypeEnum.Json);
-        schemaItem.setValues(values);
+//        schemaItem.setValues(values);
         return schemaItem;
-
     }
 
 }

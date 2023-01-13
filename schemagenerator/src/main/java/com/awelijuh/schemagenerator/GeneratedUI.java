@@ -93,7 +93,9 @@ public class GeneratedUI {
     private Map<String, Object> mapObjectToMap(Object o) {
         Map<String, Object> result = new HashMap<>();
         for (Field e : FieldUtils.getFieldsListWithAnnotation(o.getClass(), UiField.class)) {
+            e.setAccessible(true);
             result.put(e.getName(), e.get(o));
+            e.setAccessible(false);
         }
 
         return result;

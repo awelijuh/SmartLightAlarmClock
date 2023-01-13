@@ -33,11 +33,5 @@ public class FeignConfig {
                 .build();
     }
 
-    @Singleton
-    @Provides
-    ToyaApi provideToyaApi(Retrofit retrofit) {
-        return retrofit.create(ToyaApi.class);
-    }
-
 
 }

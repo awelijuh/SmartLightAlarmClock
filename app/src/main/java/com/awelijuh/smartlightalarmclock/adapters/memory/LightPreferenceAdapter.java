@@ -38,13 +38,13 @@ public class LightPreferenceAdapter implements LightPreferencePort {
         List<Light> lights = objectMapper.readValue(sharedPreferences.getString(LIGHTS_LIST, "[]"), javaType);
         return lights.stream()
                 .filter(e -> leds.containsKey(e.getType()))
-                .peek(e -> e.setCredentials(
+                .peek(e -> e.setDevice(
                         objectMapper.convertValue(
-                                e.getCredentials(),
-                                leds.get(e.getType()).getCredentialsClass()
+                                e.getDevice(),
+                                leds.get(e.getType()).getDeviceClass()
                         )
                 ))
-                .filter(e -> e.getCredentials() != null)
+                .filter(e -> e.getDevice() != null)
                 .collect(Collectors.toList());
     }
 

@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_baseline_lightbulb_24"
         android:title="@string/light_bulbs" />
     <item
-        android:id="@+id/profilesFragment"
+        android:id="@+id/accountsFragment"
         android:icon="@drawable/ic_baseline_manage_accounts_24"
         android:title="@string/accounts" />
 </menu>

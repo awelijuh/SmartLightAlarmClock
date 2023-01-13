@@ -41,7 +41,10 @@ public class AccountEditFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        accountEditViewModel.loadCredentials();
         this.generatedUI = new GeneratedUI(requireContext(), binding.account);
+        generatedUI.build(accountEditViewModel.getLed().getCredentialsClass());
+        generatedUI.setValue(accountEditViewModel.credentials.getValue());
         accountEditViewModel.credentials.observe(getViewLifecycleOwner(), v -> generatedUI.setValue(v));
 
         requireActivity().addMenuProvider(new MenuProvider() {

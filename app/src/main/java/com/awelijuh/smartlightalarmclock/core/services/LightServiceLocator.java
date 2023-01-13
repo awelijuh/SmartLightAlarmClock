@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
+
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;

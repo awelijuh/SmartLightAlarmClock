@@ -1,15 +1,18 @@
 package com.awelijuh.smartlightalarmclock.adapters.memory;
 
-import static com.awelijuh.smartlightalarmclock.adapters.memory.PreferenceConstants.CREDENTIALS_PREFIX;
-
 import android.content.SharedPreferences;
 
+import com.awelijuh.smartlightalarmclock.core.ports.in.LedUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+
+import static com.awelijuh.smartlightalarmclock.adapters.memory.PreferenceConstants.CREDENTIALS_PREFIX;
 
 @NoArgsConstructor(onConstructor = @__(@Inject))
 public class CredentialsPreferenceAdapter {
@@ -20,6 +23,9 @@ public class CredentialsPreferenceAdapter {
     @Inject
     ObjectMapper objectMapper;
 
+    @Inject
+    Map<String, LedUseCase> leds;
+
     @SneakyThrows
     public void saveCredentials(String name, Object credentials) {
         sharedPreferences.edit()
@@ -27,16 +33,13 @@ public class CredentialsPreferenceAdapter {
                 .apply();
     }
 
-    public Object getCredentials(String name) {
-        return sharedPreferences.getString(CREDENTIALS_PREFIX + name, null);
-    }
-
-    public <T> T getCredentials(String name, Class<T> tClass) {
-        Object o = getCredentials(name);
+    @SneakyThrows
+    public <T> T getCredentials(String name) {
+        String o = sharedPreferences.getString(CREDENTIALS_PREFIX + name, null);
         if (o == null) {
             return null;
         }
-        return (T) o;
+        return (T) objectMapper.readValue(o, leds.get(name).getCredentialsClass());
     }
 
 }

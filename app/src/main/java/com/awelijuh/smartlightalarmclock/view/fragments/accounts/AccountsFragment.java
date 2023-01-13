@@ -5,11 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
 import com.awelijuh.smartlightalarmclock.R;
 import com.awelijuh.smartlightalarmclock.databinding.FragmentAccountsBinding;
 import com.awelijuh.smartlightalarmclock.view.fragments.accounts.adapter.AccountsRecyclerAdapter;
@@ -17,6 +12,10 @@ import com.awelijuh.smartlightalarmclock.view.fragments.accounts.edit.AccountEdi
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -42,8 +41,10 @@ public class AccountsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        accountsViewModel.clear();
         accountsViewModel.loadAccounts();
         binding.accounts.setAdapter(adapter);
+        accountsViewModel.accounts.observe(getViewLifecycleOwner(), e -> adapter.update());
 
         accountsViewModel.editAccount.observe(getViewLifecycleOwner(), e -> {
             if (e == null) {

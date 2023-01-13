@@ -13,7 +13,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.SneakyThrows;
 
 @NoArgsConstructor(onConstructor = @__(@Inject))

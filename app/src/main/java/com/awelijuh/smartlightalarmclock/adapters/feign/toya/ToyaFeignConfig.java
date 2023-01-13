@@ -1,12 +1,10 @@
 package com.awelijuh.smartlightalarmclock.adapters.feign.toya;
 
 import com.awelijuh.smartlightalarmclock.adapters.feign.toya.api.ToyaApi;
+import com.awelijuh.smartlightalarmclock.adapters.feign.toya.dto.ToyaTokenResultDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,7 +13,6 @@ import dagger.hilt.components.SingletonComponent;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
@@ -24,25 +21,31 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class ToyaFeignConfig {
 
 
-    Interceptor authInterceptor = new Interceptor() {
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-
-            return chain.proceed(request);
-        }
-    };
-
-    @Singleton
     @Provides
     @Named("toya")
-    OkHttpClient provideOkHttpClient() {
+    Interceptor provideTokenInterceptor(ToyaSessionManager toyaSessionManager) {
+        return chain -> {
+            Request request = chain.request();
+
+
+            ToyaTokenResultDto tokenResultDto = toyaSessionManager.getAccess();
+
+            if (tokenResultDto == null) {
+
+            }
+
+            return chain.proceed(request);
+        };
+    }
+
+    @Provides
+    @Named("toya")
+    OkHttpClient provideOkHttpClient(@Named("toya") Interceptor toyaTokenInterceptor) {
         return new OkHttpClient.Builder()
-                .addInterceptor(authInterceptor)
+                .addInterceptor(toyaTokenInterceptor)
                 .build();
     }
 
-    @Singleton
     @Provides
     @Named("toya")
     Retrofit provideRetrofit(@Named("toya") OkHttpClient okHttpClient, ObjectMapper objectMapper) {
@@ -53,7 +56,6 @@ public class ToyaFeignConfig {
                 .build();
     }
 
-    @Singleton
     @Provides
     ToyaApi provideToyaApi(@Named("toya") Retrofit retrofit) {
         return retrofit.create(ToyaApi.class);

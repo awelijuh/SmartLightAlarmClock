@@ -4,10 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.awelijuh.smartlightalarmclock.core.domain.AlarmClockItem;
 import com.awelijuh.smartlightalarmclock.databinding.ItemAlarmBinding;
 import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.AlarmViewModel;
@@ -21,17 +17,19 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import dagger.Module;
-import dagger.hilt.InstallIn;
-import dagger.hilt.android.components.FragmentComponent;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import dagger.hilt.android.qualifiers.ActivityContext;
+import lombok.NoArgsConstructor;
 
 
-@Module
-@InstallIn(FragmentComponent.class)
+@NoArgsConstructor(onConstructor = @__(@Inject))
 public class AlarmClockRecyclerAdapter extends RecyclerView.Adapter<AlarmClockRecyclerAdapter.ViewHolder> {
 
-    private final Context context;
+    @ActivityContext
+    @Inject
+    Context context;
 
     @Inject
     AlarmViewModel alarmViewModel;
@@ -44,11 +42,6 @@ public class AlarmClockRecyclerAdapter extends RecyclerView.Adapter<AlarmClockRe
     private Map<String, AlarmClockItem> idToAlarmMap = new HashMap<>();
 
     private boolean selectedMode = false;
-
-    @Inject
-    AlarmClockRecyclerAdapter(@ActivityContext Context context) {
-        this.context = context;
-    }
 
     @NonNull
     @Override
