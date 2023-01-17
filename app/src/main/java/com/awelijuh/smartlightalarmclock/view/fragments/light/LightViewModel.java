@@ -22,6 +22,8 @@ public class LightViewModel extends ViewModel {
 
     public final MutableLiveData<List<Light>> lights = new MutableLiveData<>(List.of());
 
+    public final MutableLiveData<Light> selectedLight = new MutableLiveData<>(null);
+
     @Inject
     LightPreferenceAdapter lightPreferenceAdapter;
 
@@ -40,6 +42,7 @@ public class LightViewModel extends ViewModel {
 
     public void clear() {
         lights.setValue(List.of());
+        selectedLight.setValue(null);
     }
 
     public void loadLights() {

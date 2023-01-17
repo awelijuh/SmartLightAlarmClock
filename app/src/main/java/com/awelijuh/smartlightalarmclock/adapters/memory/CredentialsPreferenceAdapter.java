@@ -23,9 +23,6 @@ public class CredentialsPreferenceAdapter {
     @Inject
     ObjectMapper objectMapper;
 
-    @Inject
-    Map<String, LedUseCase> leds;
-
     @SneakyThrows
     public void saveCredentials(String name, Object credentials) {
         sharedPreferences.edit()
@@ -34,12 +31,12 @@ public class CredentialsPreferenceAdapter {
     }
 
     @SneakyThrows
-    public <T> T getCredentials(String name) {
+    public <T> T getCredentials(String name, Class<T> tClass) {
         String o = sharedPreferences.getString(CREDENTIALS_PREFIX + name, null);
         if (o == null) {
             return null;
         }
-        return (T) objectMapper.readValue(o, leds.get(name).getCredentialsClass());
+        return (T) objectMapper.readValue(o, tClass);
     }
 
 }

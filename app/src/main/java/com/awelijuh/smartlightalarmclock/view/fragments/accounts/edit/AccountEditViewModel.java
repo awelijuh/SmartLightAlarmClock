@@ -32,7 +32,7 @@ public class AccountEditViewModel extends ViewModel {
     }
 
     public void loadCredentials() {
-        credentials.setValue(credentialsPreferenceAdapter.getCredentials(key.getValue()));
+        credentials.setValue(credentialsPreferenceAdapter.getCredentials(key.getValue(), getLed().getCredentialsClass()));
     }
 
     public void saveCredentials() {

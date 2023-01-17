@@ -73,6 +73,11 @@ public class LightRecyclerAdapter extends RecyclerView.Adapter<LightRecyclerAdap
 
         void bind(Light light) {
             binding.setLight(light);
+
+            binding.getRoot().setOnClickListener(v -> {
+                lightViewModel.selectedLight.setValue(light);
+            });
+
         }
 
     }

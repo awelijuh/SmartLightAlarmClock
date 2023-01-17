@@ -1,12 +1,15 @@
 package com.awelijuh.smartlightalarmclock.core.services;
 
+import com.awelijuh.schemagenerator.dto.SchemaItem;
 import com.awelijuh.smartlightalarmclock.adapters.feign.toya.ToyaFeignAdapter;
+import com.awelijuh.smartlightalarmclock.core.domain.Light;
 import com.awelijuh.smartlightalarmclock.core.domain.toya.ToyaCredentials;
 import com.awelijuh.smartlightalarmclock.core.domain.toya.ToyaDevice;
 import com.awelijuh.smartlightalarmclock.core.ports.in.LedUseCase;
 
 import javax.inject.Inject;
 
+import io.reactivex.rxjava3.core.Single;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(onConstructor = @__(@Inject))
@@ -30,9 +33,10 @@ public class ToyaLedService implements LedUseCase {
         return "Toya";
     }
 
-//    public Single<SchemaItem> getSchemaControl(Light light) {
-//        return toyaFeignAdapter.getFunctions(light.getDeviceId());
-//    }
+    @Override
+    public Single<SchemaItem> getSchemaControl(Light light) {
+        return toyaFeignAdapter.getFunctions(((ToyaDevice) light.getDevice()).getDeviceId());
+    }
 
 
 }

@@ -7,24 +7,18 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
-import dagger.MapKey;
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.components.SingletonComponent;
-import dagger.multibindings.IntoMap;
-import dagger.multibindings.IntoSet;
 
 @Module
 @InstallIn(SingletonComponent.class)
-public class LightServiceLocator {
+public class LedModule {
 
     @Provides
-    @IntoSet
-    LedUseCase provideToyaService(ToyaLedService toyaLedService) {
-        return toyaLedService;
+    Map<String, LedUseCase> provideNameToLed(Set<LedUseCase> leds) {
+        return leds.stream().collect(Collectors.toMap(LedUseCase::getKey, Function.identity()));
     }
 
 }
