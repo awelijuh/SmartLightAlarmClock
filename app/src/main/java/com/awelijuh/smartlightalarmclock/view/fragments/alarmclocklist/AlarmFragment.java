@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.awelijuh.smartlightalarmclock.R;
 import com.awelijuh.smartlightalarmclock.databinding.FragmentAlarmBinding;
 import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.adapter.AlarmClockRecyclerAdapter;
-import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.creator.AlarmCreatorViewModel;
+import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.edit.AlarmEditViewModel;
 
 import javax.inject.Inject;
 
@@ -36,7 +36,7 @@ public class AlarmFragment extends Fragment {
     AlarmViewModel alarmViewModel;
 
     @Inject
-    AlarmCreatorViewModel alarmCreatorViewModel;
+    AlarmEditViewModel alarmEditViewModel;
 
     private FragmentAlarmBinding binding;
 
@@ -61,7 +61,7 @@ public class AlarmFragment extends Fragment {
         binding.removeItem.setOnClickListener(v -> {
             alarmViewModel.removeSelected();
         });
-        alarmViewModel.alarms.observe(getViewLifecycleOwner(), r -> alarmClockRecyclerAdapter.update());
+        alarmViewModel.getAlarms().observe(getViewLifecycleOwner(), r -> alarmClockRecyclerAdapter.update());
         alarmViewModel.selectedAlarms.observe(getViewLifecycleOwner(), r -> {
             alarmClockRecyclerAdapter.update();
             setupActionModeTitle();
@@ -112,7 +112,7 @@ public class AlarmFragment extends Fragment {
 
 
         binding.fab.setOnClickListener(e -> {
-            alarmCreatorViewModel.clear();
+            alarmEditViewModel.clear();
             NavHostFragment.findNavController(AlarmFragment.this)
                     .navigate(R.id.action_alarmFragment_to_alarmCreatorFragment);
         });
@@ -121,7 +121,7 @@ public class AlarmFragment extends Fragment {
             if (alarm == null) {
                 return;
             }
-            alarmCreatorViewModel.setupUpdate(alarm);
+            alarmEditViewModel.setupUpdate(alarm);
             NavHostFragment.findNavController(AlarmFragment.this)
                     .navigate(R.id.action_alarmFragment_to_alarmCreatorFragment);
         });

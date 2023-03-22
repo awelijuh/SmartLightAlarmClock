@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_baseline_alarm_24"
         android:title="@string/alarm_label" />
     <item
-        android:id="@+id/lightFragment"
+        android:id="@+id/bulbFragment"
         android:icon="@drawable/ic_baseline_lightbulb_24"
         android:title="@string/light_bulbs" />
     <item

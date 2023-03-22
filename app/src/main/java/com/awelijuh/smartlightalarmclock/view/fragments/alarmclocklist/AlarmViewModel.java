@@ -1,73 +1,80 @@
 package com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.awelijuh.smartlightalarmclock.adapters.memory.AlarmPreferenceAdapter;
-import com.awelijuh.smartlightalarmclock.core.domain.AlarmClockItem;
+import com.awelijuh.smartlightalarmclock.adapters.database.dao.AlarmClockDao;
+import com.awelijuh.smartlightalarmclock.adapters.database.domain.AlarmClock;
+import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.adapter.AlarmClockMapper;
+import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.adapter.AlarmClockViewDto;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import dagger.hilt.android.lifecycle.HiltViewModel;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @HiltViewModel
 @NoArgsConstructor(onConstructor = @__(@Inject))
 public class AlarmViewModel extends ViewModel {
 
-    public final MutableLiveData<List<AlarmClockItem>> alarms = new MutableLiveData<>(List.of());
-
-    public final MutableLiveData<AlarmClockItem> editAlarm = new MutableLiveData<>(null);
+    public final MutableLiveData<AlarmClock> editAlarm = new MutableLiveData<>(null);
 
     public final MutableLiveData<Boolean> selectedMode = new MutableLiveData<>(false);
 
-    public final MutableLiveData<Set<String>> selectedAlarms = new MutableLiveData<>(new HashSet<>());
+    public final MutableLiveData<Set<Long>> selectedAlarms = new MutableLiveData<>(new HashSet<>());
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    public MediatorLiveData<List<AlarmClockViewDto>> alarmsDto = new MediatorLiveData<>();
+    @Inject
+    AlarmClockDao alarmClockDao;
 
     @Inject
-    AlarmPreferenceAdapter alarmPreferencePort;
+    AlarmClockMapper alarmClockMapper;
 
-    private void updateAlarms(List<AlarmClockItem> newAlarms) {
-        newAlarms = newAlarms.stream().sorted(Comparator.comparing(AlarmClockItem::getTime).thenComparing(AlarmClockItem::getId)).collect(Collectors.toList());
-        alarmPreferencePort.saveAlarms(newAlarms);
-        loadAlarms();
+    @Getter
+    private LiveData<List<AlarmClock>> alarms;
+
+    @Inject
+    void injectAlarms(AlarmClockDao alarmClockDao) {
+        alarms = alarmClockDao.getAllLiveData();
+
+        alarmsDto.addSource(alarms, alarmClocks -> {
+            alarmsDto.setValue(alarmClockMapper.map(alarmClocks));
+        });
+
+
     }
 
-    public void saveAlarmItem(AlarmClockItem alarmClockItem) {
-        var map = alarms.getValue().stream().collect(Collectors.toMap(AlarmClockItem::getId, Function.identity()));
-        map.put(alarmClockItem.getId(), alarmClockItem);
-        var newAlarms = map.values().stream().sorted(Comparator.comparing(AlarmClockItem::getTime).thenComparing(AlarmClockItem::getId)).collect(Collectors.toList());
-        updateAlarms(newAlarms);
+    public void saveAlarmItem(AlarmClock alarmClock) {
+        alarmClockDao.save(alarmClock)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
     public void clear() {
         editAlarm.setValue(null);
-        alarms.setValue(List.of());
         selectedMode.setValue(false);
         selectedAlarms.setValue(new HashSet<>());
     }
 
-    public void loadAlarms() {
-        var newAlarms = alarmPreferencePort.getAlarms();
-        if (!newAlarms.equals(alarms.getValue())) {
-            alarms.setValue(alarmPreferencePort.getAlarms());
-        }
-    }
-
     public void init() {
         clear();
-        loadAlarms();
     }
 
-    public void selectAlarmItem(AlarmClockItem alarmClockItem) {
+    public void selectAlarmItem(AlarmClock alarmClockItem) {
         if (Boolean.TRUE.equals(selectedMode.getValue())) {
-            Set<String> a = new HashSet<>();
+            Set<Long> a = new HashSet<>();
             if (selectedAlarms.getValue() != null) {
                 a.addAll(selectedAlarms.getValue());
             }
@@ -89,22 +96,22 @@ public class AlarmViewModel extends ViewModel {
         if (selectedAlarms.getValue().size() == alarms.getValue().size()) {
             selectedAlarms.setValue(new HashSet<>());
         } else {
-            selectedAlarms.setValue(alarms.getValue().stream().map(AlarmClockItem::getId).collect(Collectors.toSet()));
+            selectedAlarms.setValue(alarms.getValue().stream().map(AlarmClock::getId).collect(Collectors.toSet()));
         }
     }
 
-    public void setSelectedMode(AlarmClockItem alarmClockItem) {
+    public void setSelectedMode(AlarmClock alarmClock) {
         selectedAlarms.setValue(new HashSet<>());
         selectedMode.setValue(true);
-        selectAlarmItem(alarmClockItem);
+        selectAlarmItem(alarmClock);
     }
 
-    public void checkAlarm(AlarmClockItem alarmClockItem, boolean b) {
-        Set<String> selected = new HashSet<>(selectedAlarms.getValue());
+    public void checkAlarm(AlarmClock alarmClock, boolean b) {
+        Set<Long> selected = new HashSet<>(selectedAlarms.getValue());
         if (b) {
-            selected.add(alarmClockItem.getId());
+            selected.add(alarmClock.getId());
         } else {
-            selected.remove(alarmClockItem.getId());
+            selected.remove(alarmClock.getId());
         }
         if (!selected.equals(selectedAlarms.getValue())) {
             selectedAlarms.setValue(selected);
@@ -112,9 +119,11 @@ public class AlarmViewModel extends ViewModel {
     }
 
     public void removeSelected() {
-        var newAlarms = alarms.getValue().stream().filter(e -> !selectedAlarms.getValue().contains(e.getId())).collect(Collectors.toList());
-        updateAlarms(newAlarms);
-        selectedMode.setValue(false);
+        compositeDisposable.add(
+                alarmClockDao.delete(selectedAlarms.getValue())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(() -> selectedMode.setValue(false))
+        );
     }
 
 }

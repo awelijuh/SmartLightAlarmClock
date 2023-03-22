@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class AlarmClockViewDto {
 
-    private String id;
+    private Long id;
 
     private LocalTime time;
 

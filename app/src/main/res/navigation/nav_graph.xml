@@ -12,25 +12,28 @@
         tools:layout="@layout/fragment_alarm">
         <action
             android:id="@+id/action_alarmFragment_to_alarmCreatorFragment"
-            app:destination="@id/alarmCreatorFragment" />
+            app:destination="@id/alarmEditFragment" />
     </fragment>
     <fragment
-        android:id="@+id/alarmCreatorFragment"
-        android:name="com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.creator.AlarmCreatorFragment"
+        android:id="@+id/alarmEditFragment"
+        android:name="com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.edit.AlarmEditFragment"
         android:label="@string/create_alarm_label"
         tools:layout="@layout/fragment_create_alarm" />
     <fragment
-        android:id="@+id/lightFragment"
-        android:name="com.awelijuh.smartlightalarmclock.view.fragments.light.LightFragment"
+        android:id="@+id/bulbFragment"
+        android:name="com.awelijuh.smartlightalarmclock.view.fragments.bulb.BulbFragment"
         android:label="@string/light_bulbs"
-        tools:layout="@layout/fragment_light" >
+        tools:layout="@layout/fragment_bulb" >
         <action
             android:id="@+id/action_lightFragment_to_lightCreateFragment"
-            app:destination="@id/lightCreateFragment" />
+            app:destination="@id/bulbEditFragment" />
+        <action
+            android:id="@+id/action_lightFragment_to_checkLightFragment"
+            app:destination="@id/checkLightFragment" />
     </fragment>
     <fragment
-        android:id="@+id/lightCreateFragment"
-        android:name="com.awelijuh.smartlightalarmclock.view.fragments.light.create.LightCreateFragment"
+        android:id="@+id/bulbEditFragment"
+        android:name="com.awelijuh.smartlightalarmclock.view.fragments.bulb.edit.BulbEditFragment"
         android:label="LightCreateFragment" />
     <fragment
         android:id="@+id/accountsFragment"
@@ -45,4 +48,8 @@
         android:id="@+id/accountEditFragment"
         android:name="com.awelijuh.smartlightalarmclock.view.fragments.accounts.edit.AccountEditFragment"
         android:label="AccountEditFragment" />
+    <fragment
+        android:id="@+id/checkLightFragment"
+        android:name="com.awelijuh.smartlightalarmclock.view.fragments.checklight.CheckLightFragment"
+        android:label="CheckLightFragment" />
 </navigation>

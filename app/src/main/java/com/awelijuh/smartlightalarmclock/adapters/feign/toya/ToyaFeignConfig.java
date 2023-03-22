@@ -1,5 +1,7 @@
 package com.awelijuh.smartlightalarmclock.adapters.feign.toya;
 
+import static com.awelijuh.smartlightalarmclock.adapters.feign.toya.RequestSignUtils.bodyToString;
+
 import com.awelijuh.smartlightalarmclock.adapters.feign.toya.api.ToyaApi;
 import com.awelijuh.smartlightalarmclock.adapters.feign.toya.dto.ToyaContainerDto;
 import com.awelijuh.smartlightalarmclock.adapters.feign.toya.dto.ToyaTokenResultDto;
@@ -42,6 +44,12 @@ public class ToyaFeignConfig {
                 String tokenResult = chain.proceed(tokenRequestBuilder.build()).body().string();
                 var access = objectMapper.readValue(tokenResult, new TypeReference<ToyaContainerDto<ToyaTokenResultDto>>() {
                 });
+                if (!access.getSuccess()) {
+                    toyaSessionManager.clearAccess();
+                    tokenResult = chain.proceed(tokenRequestBuilder.build()).body().string();
+                    access = objectMapper.readValue(tokenResult, new TypeReference<ToyaContainerDto<ToyaTokenResultDto>>() {
+                    });
+                }
                 toyaSessionManager.saveAccess(access);
             }
 
@@ -58,7 +66,9 @@ public class ToyaFeignConfig {
             if (request.url().encodedPath().startsWith("/v1.0/token/")) {
                 accessToken = "";
             }
-            var headers = requestSignUtils.getHeader(accessToken, request, "", Map.of());
+
+            String body = bodyToString(request.body());
+            var headers = requestSignUtils.getHeader(accessToken, request, body, Map.of());
             request = request.newBuilder()
                     .headers(headers)
                     .build();

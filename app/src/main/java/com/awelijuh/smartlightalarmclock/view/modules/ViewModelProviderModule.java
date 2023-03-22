@@ -9,16 +9,16 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.awelijuh.smartlightalarmclock.view.fragments.accounts.AccountsViewModel;
 import com.awelijuh.smartlightalarmclock.view.fragments.accounts.edit.AccountEditViewModel;
 import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.AlarmViewModel;
-import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.creator.AlarmCreatorViewModel;
-import com.awelijuh.smartlightalarmclock.view.fragments.light.LightViewModel;
-import com.awelijuh.smartlightalarmclock.view.fragments.light.create.LightCreateViewModel;
+import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.edit.AlarmEditViewModel;
+import com.awelijuh.smartlightalarmclock.view.fragments.bulb.BulbViewModel;
+import com.awelijuh.smartlightalarmclock.view.fragments.checklight.CheckLightViewModel;
+import com.awelijuh.smartlightalarmclock.view.fragments.bulb.edit.BulbEditViewModel;
 
 import dagger.Module;
 import dagger.Provides;
 import dagger.hilt.InstallIn;
 import dagger.hilt.android.components.ActivityComponent;
 import dagger.hilt.android.qualifiers.ActivityContext;
-import dagger.hilt.android.qualifiers.ApplicationContext;
 
 @Module
 @InstallIn(ActivityComponent.class)
@@ -30,18 +30,18 @@ public class ViewModelProviderModule {
     }
 
     @Provides
-    AlarmCreatorViewModel provideAlarmCreatorViewModel(@ActivityContext Context context) {
-        return createViewModel(context, AlarmCreatorViewModel.class);
+    AlarmEditViewModel provideAlarmCreatorViewModel(@ActivityContext Context context) {
+        return createViewModel(context, AlarmEditViewModel.class);
     }
 
     @Provides
-    LightViewModel provideLightViewModel(@ActivityContext Context context) {
-        return createViewModel(context, LightViewModel.class);
+    BulbViewModel provideLightViewModel(@ActivityContext Context context) {
+        return createViewModel(context, BulbViewModel.class);
     }
 
     @Provides
-    LightCreateViewModel provideLightCreateViewModel(@ActivityContext Context context) {
-        return createViewModel(context, LightCreateViewModel.class);
+    BulbEditViewModel provideLightCreateViewModel(@ActivityContext Context context) {
+        return createViewModel(context, BulbEditViewModel.class);
     }
 
     @Provides
@@ -52,6 +52,11 @@ public class ViewModelProviderModule {
     @Provides
     AccountEditViewModel provideAccountEditViewModel(@ActivityContext Context context) {
         return createViewModel(context, AccountEditViewModel.class);
+    }
+
+    @Provides
+    CheckLightViewModel provideCheckLightViewModel(@ActivityContext Context context) {
+        return createViewModel(context, CheckLightViewModel.class);
     }
 
     private <T extends ViewModel> T createViewModel(Context context, Class<T> tClass) {

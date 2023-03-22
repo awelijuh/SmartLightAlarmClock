@@ -2,7 +2,7 @@ package com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.adapter;
 
 import android.content.Context;
 
-import com.awelijuh.smartlightalarmclock.core.domain.AlarmClockItem;
+import com.awelijuh.smartlightalarmclock.adapters.database.domain.AlarmClock;
 import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.AlarmViewModel;
 import com.awelijuh.smartlightalarmclock.view.utils.AlarmUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +29,7 @@ public class AlarmClockMapper {
     @Inject
     AlarmViewModel alarmViewModel;
 
-    AlarmClockViewDto map(AlarmClockItem item) {
+    public AlarmClockViewDto map(AlarmClock item) {
         var result = objectMapper.convertValue(item, AlarmClockViewDto.class);
 
         result.setPeriodText(AlarmUtils.getPeriodText(result.getReplay(), context));
@@ -39,7 +39,7 @@ public class AlarmClockMapper {
         return result;
     }
 
-    List<AlarmClockViewDto> map(List<AlarmClockItem> items) {
+    public List<AlarmClockViewDto> map(List<AlarmClock> items) {
         if (items == null) {
             return new ArrayList<>();
         }

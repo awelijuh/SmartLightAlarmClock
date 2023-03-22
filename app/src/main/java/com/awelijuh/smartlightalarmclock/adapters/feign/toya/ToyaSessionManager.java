@@ -8,9 +8,6 @@ import com.awelijuh.smartlightalarmclock.adapters.feign.toya.dto.ToyaContainerDt
 import com.awelijuh.smartlightalarmclock.adapters.feign.toya.dto.ToyaTokenResultDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 import javax.inject.Inject;
 
 import lombok.NoArgsConstructor;
@@ -32,6 +29,12 @@ public class ToyaSessionManager {
 
         sharedPreferences.edit()
                 .putString(TOYA_ACCESS, objectMapper.writeValueAsString(toyaTokenResultDto))
+                .apply();
+    }
+
+    public void clearAccess() {
+        sharedPreferences.edit()
+                .putString(TOYA_ACCESS, "null")
                 .apply();
     }
 

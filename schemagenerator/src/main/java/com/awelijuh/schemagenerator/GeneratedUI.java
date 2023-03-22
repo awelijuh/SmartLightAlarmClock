@@ -6,16 +6,25 @@ import android.widget.LinearLayout;
 
 import com.awelijuh.schemagenerator.dto.SchemaItem;
 import com.awelijuh.schemagenerator.dto.TypeEnum;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import lombok.SneakyThrows;
 
 public class GeneratedUI {
+
+    private static final Map<Class, TypeEnum> FIELD_MAP = Map.of(
+            String.class, TypeEnum.String,
+            Integer.class, TypeEnum.Integer,
+            Boolean.class, TypeEnum.Boolean
+    );
 
     private final Context context;
     private final LinearLayout linearLayout;
@@ -26,9 +35,7 @@ public class GeneratedUI {
         this.linearLayout = linearLayout;
     }
 
-    public <T> void build(Class<T> tClass) {
-        linearLayout.removeAllViews();
-
+    public static <T> SchemaItem mapClassToSchema(Class<T> tClass) {
         SchemaItem schemaItem = new SchemaItem();
         schemaItem.setType(TypeEnum.Json);
         schemaItem.setCode("root");
@@ -38,14 +45,37 @@ public class GeneratedUI {
         FieldUtils.getFieldsListWithAnnotation(tClass, UiField.class).forEach(e -> {
             UiField a = e.getDeclaredAnnotation(UiField.class);
             SchemaItem s = new SchemaItem();
-            s.setType(TypeEnum.String);
+
+            if (e.getType().isEnum()) {
+                s.setType(TypeEnum.Enum);
+                s.setRange(Arrays.stream(e.getType().getEnumConstants()).map(String::valueOf).collect(Collectors.toList()));
+            } else if (FIELD_MAP.containsKey(e.getType())) {
+                s.setType(FIELD_MAP.get(e.getType()));
+            } else {
+                s.setType(TypeEnum.Json);
+                SchemaItem item = mapClassToSchema(e.getType());
+                s.setValues(item.getValues());
+            }
+
+            s.setMin(a.min());
+            s.setMax(a.max());
+
             s.setName(a.name());
+            if (s.getName() == null || s.getName().isEmpty()) {
+                s.setName(e.getName());
+            }
             s.setCode(e.getName());
             map.put(e.getName(), s);
         });
         schemaItem.setValues(map);
 
-        rootItem = SchemaGeneratorUtils.createJsonInput(context, schemaItem);
+        return schemaItem;
+    }
+
+    public <T> void build(Class<T> tClass) {
+        linearLayout.removeAllViews();
+
+        rootItem = SchemaGeneratorUtils.createJsonInput(context, mapClassToSchema(tClass));
 
         linearLayout.addView(rootItem.getView());
     }

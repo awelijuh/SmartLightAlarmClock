@@ -11,4 +11,8 @@ public @interface UiField {
 
     String name() default "";
 
+    int min() default 0;
+
+    int max() default 0;
+
 }

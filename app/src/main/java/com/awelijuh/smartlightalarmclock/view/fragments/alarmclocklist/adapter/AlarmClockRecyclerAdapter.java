@@ -4,22 +4,26 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.awelijuh.smartlightalarmclock.core.domain.AlarmClockItem;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.awelijuh.smartlightalarmclock.adapters.database.domain.AlarmClock;
 import com.awelijuh.smartlightalarmclock.databinding.ItemAlarmBinding;
-import com.awelijuh.smartlightalarmclock.view.fragments.alarmclocklist.AlarmViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import lombok.NoArgsConstructor;
 
@@ -31,17 +35,13 @@ public class AlarmClockRecyclerAdapter extends RecyclerView.Adapter<AlarmClockRe
     @Inject
     Context context;
 
-    @Inject
-    AlarmViewModel alarmViewModel;
-
-    @Inject
-    AlarmClockMapper alarmClockMapper;
-
     private List<AlarmClockViewDto> items = new ArrayList<>();
 
-    private Map<String, AlarmClockItem> idToAlarmMap = new HashMap<>();
-
     private boolean selectedMode = false;
+
+    private Consumer<AlarmClockViewDto> onItemClick;
+
+    private Consumer<AlarmClockViewDto> onItemActiveChanged;
 
     @NonNull
     @Override
@@ -59,14 +59,12 @@ public class AlarmClockRecyclerAdapter extends RecyclerView.Adapter<AlarmClockRe
         return items.size();
     }
 
-    public void update() {
-        var alarms = alarmClockMapper.map(alarmViewModel.alarms.getValue());
+    public void update(List<AlarmClockViewDto> alarms) {
         var callback = new AlarmClockDiffCallback(items, alarms);
         var diffResult = DiffUtil.calculateDiff(callback, false);
 
         items.clear();
         items.addAll(alarms);
-        idToAlarmMap = alarmViewModel.alarms.getValue().stream().collect(Collectors.toMap(AlarmClockItem::getId, Function.identity()));
         diffResult.dispatchUpdatesTo(this);
     }
 
@@ -80,25 +78,29 @@ public class AlarmClockRecyclerAdapter extends RecyclerView.Adapter<AlarmClockRe
         }
 
         void bind(AlarmClockViewDto alarmClockViewDto) {
-            var alarmClockItem = idToAlarmMap.get(alarmClockViewDto.getId());
 
             binding.setAlarm(alarmClockViewDto);
 
             binding.getRoot().setOnClickListener(v -> {
-                alarmViewModel.selectAlarmItem(alarmClockItem);
+                Optional.ofNullable(onItemClick).ifPresent(e -> e.accept(alarmClockViewDto));
+//                alarmViewModel.selectAlarmItem(alarmClockItem);
             });
             binding.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
-                alarmViewModel.checkAlarm(alarmClockItem, b);
+
+//                alarmViewModel.checkAlarm(alarmClockItem, b);
             });
 
             binding.getRoot().setOnLongClickListener(v -> {
-                alarmViewModel.setSelectedMode(alarmClockItem);
+//                alarmViewModel.setSelectedMode(alarmClockItem);
                 return true;
             });
 
+
             binding.alarmItemActive.setOnCheckedChangeListener((compoundButton, b) -> {
-                alarmClockItem.setActive(b);
-                alarmViewModel.saveAlarmItem(alarmClockItem);
+                alarmClockViewDto.setActive(b);
+                Optional.ofNullable(onItemActiveChanged).ifPresent(e -> e.accept(alarmClockViewDto));
+//                alarmClockItem.setActive(b);
+//                alarmViewModel.saveAlarmItem(alarmClockItem);
             });
 
         }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.alarmclocklist.creator.AlarmCreatorFragment">
+    tools:context=".view.fragments.alarmclocklist.edit.AlarmEditFragment">
 
     <TimePicker
         android:id="@+id/alarm_time"

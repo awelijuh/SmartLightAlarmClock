@@ -5,6 +5,7 @@ import com.awelijuh.smartlightalarmclock.core.domain.toya.ToyaCredentials;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -28,6 +29,8 @@ import lombok.SneakyThrows;
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
+import okhttp3.RequestBody;
+import okio.Buffer;
 
 @NoArgsConstructor(onConstructor = @__(@Inject))
 public class RequestSignUtils {
@@ -219,5 +222,20 @@ public class RequestSignUtils {
             return printHexBinary(digest);
         }
     }
+
+    public static String bodyToString(final RequestBody request) {
+        try {
+            final RequestBody copy = request;
+            final Buffer buffer = new Buffer();
+            if (copy != null)
+                copy.writeTo(buffer);
+            else
+                return "";
+            return buffer.readUtf8();
+        } catch (final IOException e) {
+            return "did not work";
+        }
+    }
+
 
 }
